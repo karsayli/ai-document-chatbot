@@ -24,8 +24,7 @@ build_backend:
     - until docker info; do sleep 1; done
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - cd backend
-    - docker build -t $BACKEND_IMAGE -f Dockerfile .
+    - docker build -t $BACKEND_IMAGE -f backend/Dockerfile backend/
     - docker push $BACKEND_IMAGE
   only:
     - main
@@ -46,8 +45,7 @@ build_frontend:
     - until docker info; do sleep 1; done
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - cd frontend
-    - docker build -t $FRONTEND_IMAGE -f Dockerfile .
+    - docker build -t $FRONTEND_IMAGE -f frontend/Dockerfile frontend/
     - docker push $FRONTEND_IMAGE
   only:
     - main
