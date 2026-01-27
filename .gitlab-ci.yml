@@ -123,8 +123,7 @@ deploy_staging:
     - echo "Deploying to staging environment..."
     - echo "Backend image: $BACKEND_IMAGE"
     - echo "Frontend image: $FRONTEND_IMAGE"
-    # Add your deployment commands here
-    # Example: kubectl, docker-compose, ssh, etc.
+    - echo "Add your deployment commands here"
   environment:
     name: staging
     url: https://staging.example.com
@@ -142,7 +141,7 @@ deploy_production:
     - echo "Deploying to production environment..."
     - echo "Backend image: $BACKEND_IMAGE"
     - echo "Frontend image: $FRONTEND_IMAGE"
-    # Add your deployment commands here
+    - echo "Add your deployment commands here"
   environment:
     name: production
     url: https://production.example.com
