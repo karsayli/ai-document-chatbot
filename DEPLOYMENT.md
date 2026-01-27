@@ -98,12 +98,18 @@ The project includes a GitLab CI/CD pipeline (`.gitlab-ci.yml`) that automates:
 3. **Deploy stages:**
    - Manual deployment to staging (from `develop` branch)
    - Manual deployment to production (from `main` branch or tags)
+   - Deploy stages show detailed deployment information and example commands
+   - Customize deployment commands based on your infrastructure (Docker, Kubernetes, etc.)
 
 #### Setting up CI/CD
 
 1. **Configure GitLab CI/CD variables:**
    - Go to Project Settings → CI/CD → Variables
-   - Add required variables (API keys, deployment credentials, etc.)
+   - Add required variables:
+     - `CI_REGISTRY_USER`: GitLab registry username
+     - `CI_REGISTRY_PASSWORD`: GitLab registry password
+     - `GOOGLE_API_KEY`: Google API key (masked, protected)
+     - `OPENAI_API_KEY`: OpenAI API key (optional, masked, protected)
 
 2. **Configure GitLab Runner:**
    - Ensure Docker-in-Docker (DinD) is available
@@ -113,6 +119,45 @@ The project includes a GitLab CI/CD pipeline (`.gitlab-ci.yml`) that automates:
    - Push to `main` or `develop` branch
    - Create a tag for production release
    - Pipeline will run automatically
+
+#### Deployment Process
+
+**Staging Deployment:**
+- Triggered manually from `develop` branch
+- Go to CI/CD → Pipelines → Click on pipeline → Click "deploy_staging" → Click "Play" button
+- Review deployment information and image tags
+- Customize deployment commands for your infrastructure
+
+**Production Deployment:**
+- Triggered manually from `main` branch or tags
+- Go to CI/CD → Pipelines → Click on pipeline → Click "deploy_production" → Click "Play" button
+- ⚠️ **Warning**: Production deployment requires careful verification
+- Review deployment information and image tags
+- Customize deployment commands for your infrastructure
+
+**Deployment Commands Examples:**
+
+The deploy stages provide example commands that you can customize:
+
+**Docker Compose:**
+```bash
+docker pull $BACKEND_IMAGE
+docker pull $FRONTEND_IMAGE
+docker-compose -f docker-compose.prod.yml pull
+docker-compose -f docker-compose.prod.yml up -d --no-deps
+```
+
+**Kubernetes:**
+```bash
+kubectl set image deployment/backend backend=$BACKEND_IMAGE -n production
+kubectl set image deployment/frontend frontend=$FRONTEND_IMAGE -n production
+kubectl rollout status deployment/backend -n production
+```
+
+**SSH Deployment:**
+```bash
+ssh user@server "docker pull $BACKEND_IMAGE && docker-compose up -d"
+```
 
 ## Environment Variables
 

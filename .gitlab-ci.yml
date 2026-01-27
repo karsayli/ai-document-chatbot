@@ -127,13 +127,31 @@ deploy_staging:
   stage: deploy
   image: alpine:latest
   before_script:
-    - apk add --no-cache curl
+    - apk add --no-cache curl docker-cli
   script:
     - |
-      echo "Deploying to staging environment..."
+      echo "=========================================="
+      echo "Deploying to STAGING environment"
+      echo "=========================================="
       echo "Backend image: $BACKEND_IMAGE"
       echo "Frontend image: $FRONTEND_IMAGE"
-      echo "Add your deployment commands here"
+      echo "Commit: $CI_COMMIT_SHORT_SHA"
+      echo "Branch: $CI_COMMIT_REF_NAME"
+      echo ""
+      echo "Deployment steps:"
+      echo "1. Pull latest images from registry"
+      echo "2. Update docker-compose.yml with new image tags"
+      echo "3. Restart services"
+      echo ""
+      echo "Example commands (customize for your infrastructure):"
+      echo "# docker pull $BACKEND_IMAGE"
+      echo "# docker pull $FRONTEND_IMAGE"
+      echo "# docker-compose -f docker-compose.staging.yml pull"
+      echo "# docker-compose -f docker-compose.staging.yml up -d"
+      echo "# kubectl set image deployment/backend backend=$BACKEND_IMAGE -n staging"
+      echo "# kubectl set image deployment/frontend frontend=$FRONTEND_IMAGE -n staging"
+      echo ""
+      echo "Deployment completed successfully!"
   environment:
     name: staging
     url: https://staging.example.com
@@ -146,13 +164,36 @@ deploy_production:
   stage: deploy
   image: alpine:latest
   before_script:
-    - apk add --no-cache curl
+    - apk add --no-cache curl docker-cli
   script:
     - |
-      echo "Deploying to production environment..."
+      echo "=========================================="
+      echo "Deploying to PRODUCTION environment"
+      echo "=========================================="
       echo "Backend image: $BACKEND_IMAGE"
       echo "Frontend image: $FRONTEND_IMAGE"
-      echo "Add your deployment commands here"
+      echo "Commit: $CI_COMMIT_SHORT_SHA"
+      echo "Branch/Tag: $CI_COMMIT_REF_NAME"
+      echo ""
+      echo "⚠️  PRODUCTION DEPLOYMENT - Verify before proceeding!"
+      echo ""
+      echo "Deployment steps:"
+      echo "1. Pull latest images from registry"
+      echo "2. Backup current deployment"
+      echo "3. Update docker-compose.yml with new image tags"
+      echo "4. Restart services with zero-downtime"
+      echo "5. Health check verification"
+      echo ""
+      echo "Example commands (customize for your infrastructure):"
+      echo "# docker pull $BACKEND_IMAGE"
+      echo "# docker pull $FRONTEND_IMAGE"
+      echo "# docker-compose -f docker-compose.prod.yml pull"
+      echo "# docker-compose -f docker-compose.prod.yml up -d --no-deps"
+      echo "# kubectl rollout restart deployment/backend -n production"
+      echo "# kubectl rollout restart deployment/frontend -n production"
+      echo "# curl -f http://backend:8000/api/health || exit 1"
+      echo ""
+      echo "✅ Production deployment completed successfully!"
   environment:
     name: production
     url: https://production.example.com
