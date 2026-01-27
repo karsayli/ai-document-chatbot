@@ -24,11 +24,8 @@ build_backend:
     - until docker info; do sleep 1; done
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - pwd
-    - ls -la
-    - ls -la backend/ || echo "Backend directory not found"
-    - ls -la backend/Dockerfile || echo "Dockerfile not found in backend"
-    - docker build -t $BACKEND_IMAGE -f backend/Dockerfile .
+    - cd backend
+    - docker build -t $BACKEND_IMAGE -f Dockerfile .
     - docker push $BACKEND_IMAGE
   only:
     - main
