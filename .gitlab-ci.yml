@@ -24,7 +24,7 @@ build_backend:
     - until docker info; do sleep 1; done
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - docker build -t $BACKEND_IMAGE -f backend/Dockerfile backend/
+    - docker build -t $BACKEND_IMAGE -f backend/Dockerfile .
     - docker push $BACKEND_IMAGE
   only:
     - main
