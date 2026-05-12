@@ -22,6 +22,17 @@ echo Press CTRL+C to stop the server
 echo.
 set PYTHONUTF8=1
 set PYTHONIOENCODING=utf-8
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+echo Checking Python installation...
+py --version
+echo.
+echo Checking if dependencies are installed...
+py -c "import fastapi" 2>nul
+if errorlevel 1 (
+    echo WARNING: FastAPI not found. Installing dependencies...
+    py -m pip install -r requirements.txt
+    echo.
+)
+echo.
+py -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 pause
 
