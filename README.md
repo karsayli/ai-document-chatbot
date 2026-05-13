@@ -40,11 +40,13 @@ flowchart LR
 
 ## 🖼️ Screenshots
 
-> _Add screenshots in `docs/screenshots/` and reference them here_
-
-| Document Upload | Chat Interface |
+| Document Upload & First Query | Detailed RAG Response with Citations |
 |:---:|:---:|
-| _coming soon_ | _coming soon_ |
+| ![Upload](docs/screenshots/upload.png) | ![Chat](docs/screenshots/chat.png) |
+| **Page-Specific Query** | **AI-Generated Quiz from Document** |
+| ![Page Query](docs/screenshots/page-query.png) | ![Quiz](docs/screenshots/quiz.png) |
+
+> Answers include source citations (e.g. `(4/34)`, `(31/34)`) that reference the exact page in the uploaded document — making every response verifiable.
 
 ## ✨ Features
 
